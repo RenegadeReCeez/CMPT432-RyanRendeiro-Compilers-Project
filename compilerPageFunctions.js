@@ -1,66 +1,17 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>My Compiler</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="compiler.css" />
-</head>
-<body onload="init();">
-    <h1>Ryan Rendeiro Compiler Project</h1>
-    <p>
-        . . . <em>a simple parser for a simple grammar</em>:
-    </p>
-    <pre>
-G ::== E
-E ::== D O E | D
-D ::== 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0
-O ::== + | -
-    <label for="Lex">Lex Debugger</label>
-    <input type="checkbox" name="Debugger" id="LexDebug" value="true"><br>
-	<label for="Parse">Parse Debugger</label>
-    <input type="checkbox" name="Debugger" id="ParseDebug" value="true"><br>
-	<label for="Parse">Semantic Analysis Debugger</label>
-    <input type="checkbox" name="Debugger" id="SemanticAnalysisDebug" value="true"><br>
-	</pre>
-    <div>
-        <img style="float:right;" src="images/CompilerPhases.png" alt="Compiler Phases diagram" />
-    </div>    
-    <div>
-        <textarea id="taSourceCode" cols="64" rows="20"></textarea>
-        <br>
-        <input type="button" id="btnCompile" value="Compile" onclick="btnCompile_click();"/>
-        <br>
-        <textarea id="taOutput" cols="64" rows="20"></textarea>
-    </div>
-    <!-- Footer -->
-    <p>
-        <a href="http://validator.w3.org/check?uri=referer">
-            <img src="images/w3cvalidhtml5.jpg" alt="Valid HTML5" width="88" height="31" />
-        </a>
-    </p>
-    <!-- Client-side code down here, per the YSlow advice. 
-    // (http://developer.yahoo.com/performance/rules.html#js_bottom) -->
-    <script type="text/javascript" src="scripts/utils.js"></script>	
-    <script type="text/javascript" src="scripts/lexer.js"></script>	
-    <script type="text/javascript" src="scripts/Token.js"></script>
-	<script type="text/javascript" src="scripts/tree.js"></script>
-	<script type="text/javascript" src="scripts/Parser.js"></script>
-	<script type="text/javascript" src="scripts/SemanticAnalysis.js"></script>
-	<script type="text/javascript" src="scripts/Symbol.js"></script>
-	<script type="text/javascript">
-    // Global variables
-    var tokens = [];
+// CompilerPageFunctions.js //
+
+  // Global variables
+    var tokens = "";
     var tokenIndex = 0;
     var currentToken = "";
     var errorCount = 0;
     var EOF = "$";
-	var cst = "";
 
     function init() {
         // Clear the message box.
         document.getElementById("taOutput").value = "";
         // Set the initial values for our globals.
-        tokens = [];
+        tokens = "";
         tokenIndex = 0;
         currentToken = ' ';
         errorCount = 0;        
@@ -73,20 +24,11 @@ O ::== + | -
         init();
         putMessage("Compilation Started");
         // Grab the tokens from the lexer . . .
-       
-		
-		tokenStream = lex();
-		
-		
-		//putMessage("Lex returned [" + tokenStream + "]" );
-		console.log(JSON.stringify(tokenStream));
-        //putMessage(debugTxt);
+        tokens = lex();
+        putMessage("Lex returned [" + tokenStream + "]" );
+        putMessage(debugTxt);
 		// . . . and parse!
         parse(tokenStream);
-		
-		semanticAnalysis(tokenStream);
-		
-		putMessage("test4");
     }
     
     function putMessage(msg) {
@@ -94,7 +36,7 @@ O ::== + | -
     }
     
     
-   /* function parse() {
+    function parse() {
         putMessage("Parsing [" + tokenStream + "]");
         // Grab the next token.
         currentToken = getNextToken();
@@ -123,7 +65,7 @@ O ::== + | -
             // and that's cool since E --> digit is valid.
             putMessage("EOF reached");
         }
-    }*/
+    }
 
     function checkToken(expectedKind) {
         // Validate that we have the expected token kind and et the next token.
@@ -173,5 +115,3 @@ O ::== + | -
         return thisToken;
     }
     </script>
-</body>
-</html>
