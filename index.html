@@ -30,7 +30,7 @@ O ::== + | -
         <br>
         <input type="button" id="btnCompile" value="Compile" onclick="btnCompile_click();"/>
         <br>
-        <textarea id="taOutput" cols="64" rows="20"></textarea>
+        <textarea id="taOutput" cols="190" rows="27"></textarea>
     </div>
     <!-- Footer -->
     <p>
@@ -47,6 +47,7 @@ O ::== + | -
 	<script type="text/javascript" src="Parser.js"></script>
 	<script type="text/javascript" src="SemanticAnalysis.js"></script>
 	<script type="text/javascript" src="Symbol.js"></script>
+	<script type="text/javascript" src="SymbolTable.js"></script>
 	<script type="text/javascript">
     // Global variables
     var tokens = [];
@@ -79,14 +80,14 @@ O ::== + | -
 		
 		
 		//putMessage("Lex returned [" + tokenStream + "]" );
-		console.log(JSON.stringify(tokenStream));
+		//console.log(JSON.stringify(tokenStream));
         //putMessage(debugTxt);
 		// . . . and parse!
-        parse(tokenStream);
+        //parse(tokenStream);
 		
-		semanticAnalysis(tokenStream);
+		//semanticAnalysis(tokenStream);
 		
-		putMessage("test4");
+		
     }
     
     function putMessage(msg) {

@@ -5,7 +5,7 @@
 // work by Michael Ardizzone and Tim Smith.
 //-----------------------------------------
 
-function Tree() {
+function symbolTable() {
     // ----------
     // Attributes
     // ----------
@@ -19,12 +19,13 @@ function Tree() {
     // -- ------- --
 
     // Add a node: kind in {branch, leaf}.
-    this.addNode = function(name, kind) {
+    this.addNode = function(name, kind, scope) {
         // Construct the node object.
         var node = { name: name,
                      children: [],
                      parent: {},
-					 
+					 scope: scope,
+					 symbols: []
                    };
 
         // Check to see if it needs to be the root node.
@@ -83,13 +84,20 @@ function Tree() {
             if (!node.children || node.children.length === 0)
             {
                 // ... note the leaf node.
-                traversalResult += "[" + node.name + "]";
-                traversalResult += "\n";
+                traversalResult += "<" + node.name + ">";
+                node.symbols.forEach(function(symbol){
+					traversalResult += " " + symbol.type + " " + symbol.name + " ";
+				});
+				traversalResult += "\n";
             }
             else
             {
                 // There are children, so note these interior/branch nodes and ...
-                traversalResult += "<" + node.name + "> \n";
+                traversalResult += "<" + node.name + "> ";
+				node.symbols.forEach(function(symbol){
+					traversalResult += " " + symbol.type + " " + symbol.name + " ";
+				});
+				traversalResult +="\n";
                 // .. recursively expand them.
                 for (var i = 0; i < node.children.length; i++)
                 {

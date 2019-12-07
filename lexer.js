@@ -17,10 +17,13 @@
 	    //line counter
         var currentLine = 1;
 		var currentPos = 0;
-        var debugTxt = "";
-	    var regularTxt = "Starting Lexer ...";
+        
 		var quoteCounter = 0;
-	
+		var programCount = 1;
+		var debugTxt = "";
+	    var regularTxt = "Starting Lexer ... \nProgram " + programCount + " Lexical Analysis ";
+		putMessage(regularTxt);
+		//Lexemes many Lexemes
 		var idLexeme = /[a-z]/;
 		var ifLexeme = /if/;
 		var intLexeme = /int/;
@@ -34,8 +37,8 @@
 		var equalityLexeme = /(==)/;
 		var digitLexeme = /[0-9]/;
 		var additionLexeme = /\+/;
-		var quotationLexeme = /(\"[^"]*\")/; //"([^"\\]*(?:\\.[^"\\]*)*)"/
-		var innerQuotationLexeme = /\"(.*?)\"/;  //[a-z]+(?=(?:(?:[^"]*"){2})*[^"]*"[^"]*$)|\s+(?=(?:(?:[^"]*"){2})*[^"]*"[^"]*$)/g
+		var quotationLexeme = /(\"[^"]*\")/; 
+		var innerQuotationLexeme = /\"(.*?)\"/;  
 		var commentsLexeme = /(\/\*[^\/\*]*\*\/)/;
 		var inEqualityLexeme = /(!=)/;
 		var leftParenLexeme = /\(/;
@@ -51,7 +54,7 @@
 		var openCommentLexeme = /\/\*/;
 		//combing all the other lexemes except for the quotation marks, comment symbols, brackets, and parentheses because \S takes all non whitespace characters
 	    var grammarLexeme =  /(\/\*[^\/\*]*\*\/)|(if)|(print)|(int)|(while)|(false)|(true)|(string)|(boolean)|([a-z])|(0-9)|(\"[^"]*\")|(\/\*)|(")|(==)|(!=)|(\S)|(\n)|/g
-		//([a-z]+)|if|int|while|print|false|true|string|boolean|}|{|)|(|(=)|[0-9]|(\"[^"]*\")|(==)|(!=)|\+|(\S)|(\/\*[^\/\*]*\*\/)|(\n)/g;
+		
 		
 		
         var sourceLexeme = sourceCode.split(grammarLexeme);
@@ -256,6 +259,18 @@
 					debugTxt = debugTxt + " DEBUG LEXER - EOP end of program detected moving on to next program \n";
 				}
 				tokenStream.push(token);
+				if (verbose) {
+					putMessage(debugTxt);
+				}
+				putMessage("Program " + programCount + " Lexical analysis produced " + lexerErrorNum + " error(s) and " + lexerWarningNum + " warning(s)");
+				parse(tokenStream,programCount);
+				if(i<sourceLexemes.length-1){	
+					programCount++;
+					debugTxt=""
+					tokenStream = [];
+					var regularTxt = "Starting Lexer ... \nProgram " + programCount + " Lexical Analysis ";
+					putMessage(regularTxt);
+				}
 			}else{ 
 				if(verbose){
 					debugTxt = debugTxt + " no lexeme matched, ERROR, illegal characters/input ... ending lexing \n";
@@ -264,8 +279,8 @@
 				break;
 			}
 		}
-		if (verbose) {
-		    putMessage(debugTxt);
+		/*if (verbose) {
+			putMessage(debugTxt);
 			//putMessage(sourceLexeme);
 			//putMessage(sourceLexemes);
 			//putMessage(tokenStream);
@@ -274,8 +289,11 @@
 			return debugTxt;
 			return sourceLexemes;
 			return sourceLexeme;
+			return lexerErrorNum;
 			
-		}
+		}*/
+		
+		//putMessage("Program " + programCount + " Lexical analysis produced " + lexerErrorNum + " error(s) and " + lexerWarningNum + " warning(s)");
 		
 		
        

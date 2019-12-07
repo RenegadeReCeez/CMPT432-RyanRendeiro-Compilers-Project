@@ -1,11 +1,13 @@
 /* Parser.js */
-function parse(tokenStream){
+function parse(tokenStream,programCount){
   var tokens = [];
   tokens = tokenStream;
   var verbose = document.getElementById("ParseDebug").value
   var currentToken = 0;
   var parseErrorNum = 0;
   var parseWarningNum = 0;
+  var regularTxt = "Starting Parser ... \nProgram " + programCount + " Parsing \n";
+  putMessage(regularTxt);
   var debugTxt = "Starting Parser ...\n ";
   var type = "";
   var cst = new Tree();
@@ -18,6 +20,7 @@ function parse(tokenStream){
 	
 	parseBlock();
 	if (match("T_EOP", tokens[currentToken].type)){
+		cst.addNode("$", "Leaf");
 		if(verbose){
 			debugTxt = debugTxt + " DEBUG PARSER - expecting [ T_EOP ] found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
 		}
@@ -28,6 +31,26 @@ function parse(tokenStream){
 			debugTxt = debugTxt + " DEBUG PARSER - ERROR expecting [ T_EOP ] found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
 		}
 	}
+	
+	if(verbose){
+		if (parseErrorNum > 0){
+			debugTxt = debugTxt + " ERRORS DETECTED PARSE FAILED ";
+		}
+		putMessage(debugTxt);
+		putMessage(" CST ");
+		putMessage(cst.toString());
+		//return debugTxt;
+		//return cst;
+		putMessage("Program " + programCount + " Parsing produced " + parseErrorNum + " error(s) and " + parseWarningNum + " warning(s)");
+		semanticAnalysis(tokenStream,programCount);
+	}
+	
+	if (currentToken < tokens.length-1) {
+		currentToken++;
+		ParseProgram();
+	
+	}
+	
   }
 
   function parseBlock(){
@@ -46,8 +69,8 @@ function parse(tokenStream){
 		if(verbose){
 			debugTxt = debugTxt + " DEBUG PARSER - ERROR expecting [ T_LEFT_BRACKET ] found ..." + tokens[currentToken].type + " \n";
 		}
-	}	
-    if (match("T_RIGHT_BRACKET",tokens[currentToken].type)){
+	}		
+	if (match("T_RIGHT_BRACKET",tokens[currentToken].type)){
 		cst.endChildren();
 		cst.addNode("}", "leaf");
 		if(verbose){
@@ -61,6 +84,7 @@ function parse(tokenStream){
 			debugTxt = debugTxt + " DEBUG PARSER - ERROR expecting [ T_RIGHT_BRACKET_BRACKET ] found ..." + tokens[currentToken].type + " \n";
 		}
 	}
+	
   }
 
   function ParseStatementList(){
@@ -266,14 +290,14 @@ function parse(tokenStream){
 			debugTxt = debugTxt + " DEBUG PARSER - expecting [ T_QUOTATION ] in Expr found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
 		}
 		ParseStringExpr();  
-	}else if(match("T_LEFT_PAREN",tokens[currentToken].type)){
+	}else if(match("T_LEFT_PAREN",tokens[currentToken].type)||match("T_TRUE",tokens[currentToken].type)||match("T_FALSE",tokens[currentToken].type)){
 		if(verbose){
-			debugTxt = debugTxt + " DEBUG PARSER - expecting [ T_LEFT_PAREN ] in Expr found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
+			debugTxt = debugTxt + " DEBUG PARSER - expecting [ T_LEFT_PAREN ] or [ T_TRUE ] or [ T_FALSE ] in Expr found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
 		}
 		ParseBooleanExpr();	
     }else if(match("T_ID",tokens[currentToken].type)){
 		if(verbose){
-			debugTxt = debugTxt + " DEBUG PARSER - expecting [ T_ID  in Expr] found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
+			debugTxt = debugTxt + " DEBUG PARSER - expecting [ T_ID ] in Expr found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
 		}
 		ParseID();
 	}else{
@@ -347,7 +371,7 @@ function parse(tokenStream){
 		if(verbose){
 			debugTxt = debugTxt + " DEBUG PARSER - expecting [ T_FALSE ] or [ T_TRUE ] found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
 		}
-		currentToken++;
+		//currentToken++;
     }else{
 		if(verbose){
 			debugTxt = debugTxt + " DEBUG PARSER - ERROR expecting [ T_LEFT_PAREN ] found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
@@ -514,7 +538,7 @@ function parse(tokenStream){
 	}
   }
   
-  if(verbose){
+  /*if(verbose){
 	if (parseErrorNum > 0){
 		debugTxt = debugTxt + " ERRORS DETECTED PARSE FAILED ";
 	}	
@@ -523,7 +547,7 @@ function parse(tokenStream){
 	putMessage(cst.toString());
 	return debugTxt;
 	return cst;
-  }
+  }*/
   
 } 
 
