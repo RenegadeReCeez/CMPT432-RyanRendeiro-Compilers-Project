@@ -11,7 +11,7 @@ function semanticAnalysis(tokenStream,programCount){
   //intialize warning tracking
   var sAWarningNum = 0;
   //starter text for semantic analysis
-  var regularTxt = "Starting Semntic Analyzer ... \nProgram " + programCount + " Semantic Analysis \n";
+  var regularTxt = "Starting Semantic Analyzer ... \nProgram " + programCount + " Semantic Analysis \n";
   putMessage(regularTxt);
   //starter debugging text for semantic analysis
   var debugTxt = "Starting Semantic Analysis ...\n ";
@@ -192,8 +192,26 @@ function semanticAnalysis(tokenStream,programCount){
 			//debugTxt = debugTxt + " DEBUG SEMANTIC ANALYSIS - ERROR expecting [ T_EOP ] found ..." + tokens[currentToken].type + " on line " + tokens[currentToken].line + " at position " + tokens[currentToken].pos + " \n";
 		}
 	}
+	if(verbose){
+		if (sAErrorNum > 0){
+			debugTxt = debugTxt + " ERRORS DETECTED SEMANTIC ANALYSIS FAILED ";
+		}
+		putMessage(debugTxt);
+		//putMessage(sAErrorNum);
+		//putMessage(sAWarningNum);
+		putMessage(" AST ");
+		putMessage(ast.toString());
+		putMessage(" Symbol Table ");
+		putMessage(symbolTree.toString());
+		codeGen(tokenStream,ast,symbolTree,programCount);
+		return ast
+		return symbolTree.symbols
+	}
+	putMessage("Program " + programCount + " Semantic Analysis produced " + sAErrorNum + " error(s) and " + sAWarningNum + " warning(s)");
+	codeGen(tokenStream,ast,symbolTree,programCount);
 	//to re-parse when there are multiple programs
 	if (currentToken < tokens.length-1) {
+		
 		currentToken++;
 		ParseProgram();
 	
@@ -436,7 +454,7 @@ function semanticAnalysis(tokenStream,programCount){
 	  //check to see if the variable is in scope or not, no redefinitiona within scope
 	  checkVarInScope(symbolTree.cur);
 	  //cretaes symbol for the symbol table tree
-	  var symbol = new Symbol(variableName,tokens[currentToken-1].line,tokens[currentToken-1].pos, type, scope, true, false);
+	  var symbol = new Symbol(variableName,tokens[currentToken-1].line,tokens[currentToken-1].pos, type, scope, true, false,tokens[currentToken-1].value);
 	  //add the symbol to the symbol table tree's list of symbols within the current scope
 	  symbolTree.cur.symbols.push(symbol);
 	  ast.endChildren();
@@ -709,7 +727,7 @@ function semanticAnalysis(tokenStream,programCount){
   }
   
   
-  if(verbose){
+  /*if(verbose){
     if (sAErrorNum > 0){
 		debugTxt = debugTxt + " ERRORS DETECTED SEMANTIC ANALYSIS FAILED ";
 	}
@@ -726,6 +744,6 @@ function semanticAnalysis(tokenStream,programCount){
 	return ast
 	
 	return symbolTree.symbols
-  }
+  }*/
 }
 

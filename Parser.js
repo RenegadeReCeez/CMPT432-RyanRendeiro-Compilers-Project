@@ -41,9 +41,10 @@ function parse(tokenStream,programCount){
 		putMessage(cst.toString());
 		//return debugTxt;
 		//return cst;
-		putMessage("Program " + programCount + " Parsing produced " + parseErrorNum + " error(s) and " + parseWarningNum + " warning(s)");
-		semanticAnalysis(tokenStream,programCount);
+		
 	}
+	putMessage("Program " + programCount + " Parsing produced " + parseErrorNum + " error(s) and " + parseWarningNum + " warning(s)");
+	semanticAnalysis(tokenStream,programCount);
 	
 	if (currentToken < tokens.length-1) {
 		currentToken++;

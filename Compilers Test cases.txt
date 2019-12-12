@@ -1,0 +1,83 @@
+good aka should work
+
+{{{{{{}}}}}}$
+
+{{{{{{int a a =1 if(a = 1){string b b = "hi allen" print(b)}}}}}}}$
+puts out hi allen
+{{{{{{int a a =1 if(a = 1){string b b = "Hi Allen" print(b)}}}}}}}$
+^still "good" but it puts out i llen since it won't take the capitol letters
+
+{int a a=1 while(a!=2){if(a==1){boolean a a=true print(a)}}}$
+
+{
+int a 
+a = 1
+string b
+b = "hello world"
+while (a != 3){
+a = 3
+}
+boolean c
+c = true
+
+if ( c == true ){  
+print (b)
+}
+}$
+
+{ 
+string b 
+b = "hello world" 
+boolean a 
+a = false
+while(a != true){
+a = true
+boolean c
+c = true
+}
+if(1+1 = 2){
+
+print(b)
+}
+}$
+
+{int a 
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+}$
+
+bad should cause errors
+
+{int a
+a = 11}$
+
+{if(1==true){while(false!=1){1=false}}}$
+
+{if(1==true){while(false!=1){a=false}}}$
+
+{
+int a 
+a = 1
+string b
+b = "hello world"
+while (a != 3){
+a = 3
+
+boolean c
+c = true
+}
+if ( c == true ){  
+print (b)
+}
+}$
+
+{int a 
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+a=1a=2a=3a=1a=2a=3a=1a=2a=3a=1a=2a=3
+}$
+^too large

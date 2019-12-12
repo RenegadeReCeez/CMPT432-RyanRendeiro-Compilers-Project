@@ -19,8 +19,10 @@ O ::== + | -
     <input type="checkbox" name="Debugger" id="LexDebug" value="true"><br>
 	<label for="Parse">Parse Debugger</label>
     <input type="checkbox" name="Debugger" id="ParseDebug" value="true"><br>
-	<label for="Parse">Semantic Analysis Debugger</label>
+	<label for="SemanticAnalysis">Semantic Analysis Debugger</label>
     <input type="checkbox" name="Debugger" id="SemanticAnalysisDebug" value="true"><br>
+	<label for="CodeGen">Code Generation Debugger</label>
+    <input type="checkbox" name="Debugger" id="CodeGenerationDebug" value="true"><br>
 	</pre>
     <div>
         <img style="float:right;" src="images/CompilerPhases.png" alt="Compiler Phases diagram" />
@@ -30,7 +32,7 @@ O ::== + | -
         <br>
         <input type="button" id="btnCompile" value="Compile" onclick="btnCompile_click();"/>
         <br>
-        <textarea id="taOutput" cols="190" rows="27"></textarea>
+        <textarea id="taOutput" cols="191" rows="27"></textarea>
     </div>
     <!-- Footer -->
     <p>
@@ -48,6 +50,8 @@ O ::== + | -
 	<script type="text/javascript" src="SemanticAnalysis.js"></script>
 	<script type="text/javascript" src="Symbol.js"></script>
 	<script type="text/javascript" src="SymbolTable.js"></script>
+	<script type="text/javascript" src="CodeGeneration.js"></script>
+	<script type="text/javascript" src="StaticVarTable.js"></script>
 	<script type="text/javascript">
     // Global variables
     var tokens = [];
